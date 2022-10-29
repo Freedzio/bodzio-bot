@@ -16,11 +16,13 @@ client.on('ready', () => {
 
 client.on(Events.InteractionCreate, async (interaction) => {
 	try {
-		if (!interaction.isChatInputCommand()) return;
+		if (!interaction.isChatInputCommand()) {
+			return;
+		}
 
 		const { commandName } = interaction;
 
-		allCommands[commandName].execute(interaction);
+		allCommands[commandName].execute(interaction, client);
 	} catch (e) {
 		console.log('oopsie');
 	}

@@ -10,6 +10,7 @@
 	"author": "Freedzio",
 	"license": "ISC",
 	"dependencies": {
+		"dayjs": "^1.11.6",
 		"discord.js": "^14.6.0",
 		"dotenv": "^16.0.3",
 		"node-fetch": "2.6.5"
