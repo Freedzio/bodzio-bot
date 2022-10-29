@@ -8,10 +8,9 @@ import { EndpointeEnum } from '../enpoints.enum';
 import fetch from 'node-fetch';
 import * as dotenv from 'dotenv';
 import dayjs from 'dayjs';
+import { fetchApi } from '../common/fetch-api';
 
 dotenv.config();
-
-const url = process.env.API_URL;
 
 const reportWork = async (
 	interaction: ChatInputCommandInteraction,
@@ -25,25 +24,34 @@ const reportWork = async (
 		'DD-MM-YYYY HH:mm'
 	)} ${hours} godzin \njob`;
 
+	console.log();
 	console.log(yada);
+	console.log();
 
-	const response = await fetch(url + EndpointeEnum.REPORT, {
+	const response = await fetchApi(EndpointeEnum.REPORT, {
 		method: 'POST',
-		body: JSON.stringify({ job, hours, username }),
-		headers: {
-			'x-bodzio-secret': process.env.API_SECRET as string
-		}
+		body: JSON.stringify({ job, hours, username })
 	});
 
 	const data = (await response).json();
 
-	(
-		client.guilds.cache
-			.get(process.env.GUILD_ID as string)
-			?.channels.cache.get(process.env.MAIN_CHANNEL_ID as string) as TextChannel
-	).send(yada);
+	const isFromDM = !interaction.channel;
 
-	await interaction.reply('ok');
+	if (isFromDM) {
+		await (
+			client.guilds.cache
+				.get(process.env.GUILD_ID as string)
+				?.channels.cache.get(
+					process.env.MAIN_CHANNEL_ID as string
+				) as TextChannel
+		).send(yada);
+
+		await interaction.reply(
+			'Oksik, poinformowałem pozostałe Hobośki o Twoich poczynaniach :)'
+		);
+	} else {
+		await interaction.reply(yada);
+	}
 };
 
 export const report = {
