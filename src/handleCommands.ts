@@ -2,10 +2,12 @@ import { REST, Routes } from 'discord.js';
 import { ping } from './commands/ping';
 import { report } from './commands/report';
 import * as dotenv from 'dotenv';
+import { show } from './commands/show';
 
 export const allCommands = {
 	ping,
-	report
+	report,
+	show
 };
 
 dotenv.config();

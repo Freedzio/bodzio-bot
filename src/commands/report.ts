@@ -11,7 +11,6 @@ import { fetchApi } from '../common/fetch-api';
 
 dotenv.config();
 
-const mainChannelId = process.env.MAIN_CHANNEL_ID as string;
 const nonMainChannelResponse =
 	'Oksik, poinformowałem pozostałe Hobośki o Twoich poczynaniach :)';
 
@@ -36,16 +35,19 @@ const reportWork = async (
 		body: JSON.stringify({ job, hours, username })
 	});
 
-	const isFromMainChannel = interaction.channel.id === mainChannelId;
+	if (!response.ok) {
+		return await interaction.reply({
+			content:
+				'Niestety nie udało mi się zaraportować Twojej pracy - coś poszło nie tak',
+			ephemeral: true
+		});
+	}
 
 	const mainChannel = client.guilds.cache
 		.get(process.env.GUILD_ID as string)
 		?.channels.cache.get(process.env.MAIN_CHANNEL_ID as string) as TextChannel;
 
-	if (isFromMainChannel) {
-		return await interaction.reply(yada);
-	}
-	await interaction.reply(nonMainChannelResponse);
+	await interaction.reply({ content: nonMainChannelResponse, ephemeral: true });
 
 	return await mainChannel.send(yada);
 };
