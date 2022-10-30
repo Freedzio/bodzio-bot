@@ -5,12 +5,15 @@ import {
 	Client
 } from 'discord.js';
 import { EndpointeEnum } from '../enpoints.enum';
-import fetch from 'node-fetch';
 import * as dotenv from 'dotenv';
 import dayjs from 'dayjs';
 import { fetchApi } from '../common/fetch-api';
 
 dotenv.config();
+
+const mainChannelId = process.env.MAIN_CHANNEL_ID as string;
+const nonMainChannelResponse =
+	'Oksik, poinformowałem pozostałe Hobośki o Twoich poczynaniach :)';
 
 const reportWork = async (
 	interaction: ChatInputCommandInteraction,
@@ -33,25 +36,18 @@ const reportWork = async (
 		body: JSON.stringify({ job, hours, username })
 	});
 
-	const data = (await response).json();
+	const isFromMainChannel = interaction.channel.id === mainChannelId;
 
-	const isFromDM = !interaction.channel;
+	const mainChannel = client.guilds.cache
+		.get(process.env.GUILD_ID as string)
+		?.channels.cache.get(process.env.MAIN_CHANNEL_ID as string) as TextChannel;
 
-	if (isFromDM) {
-		await (
-			client.guilds.cache
-				.get(process.env.GUILD_ID as string)
-				?.channels.cache.get(
-					process.env.MAIN_CHANNEL_ID as string
-				) as TextChannel
-		).send(yada);
-
-		await interaction.reply(
-			'Oksik, poinformowałem pozostałe Hobośki o Twoich poczynaniach :)'
-		);
-	} else {
-		await interaction.reply(yada);
+	if (isFromMainChannel) {
+		return await interaction.reply(yada);
 	}
+	await interaction.reply(nonMainChannelResponse);
+
+	return await mainChannel.send(yada);
 };
 
 export const report = {
