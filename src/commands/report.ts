@@ -18,13 +18,14 @@ const reportWork = async (
 	interaction: ChatInputCommandInteraction,
 	client: Client
 ) => {
-	const job = interaction.options.get('zadanie')?.value;
+	const job = interaction.options.get('zadania')?.value;
 	const hours = interaction.options.get('godziny')?.value;
 	const { username } = interaction.user;
 
-	const yada = `${username} ${dayjs().format(
-		'DD-MM-YYYY HH:mm'
-	)} ${hours} godzin \njob`;
+	const yada = `**${username} - ${hours}h** \n${job
+		.toString()
+		.replace(/ \*/g, '\n* ')
+		.replace(/ \-/g, '\n- ')}`;
 
 	console.log();
 	console.log(yada);
@@ -56,19 +57,19 @@ export const report = {
 	data: new SlashCommandBuilder()
 		.setName('report')
 		.setDescription('Zaraportuj wykonaną pracę')
-		.addStringOption((option) =>
-			option
-				.setName('zadanie')
-				.setDescription('Na co został przeznaczony czas')
-				.setRequired(true)
-		)
 		.addNumberOption((option) =>
 			option
 				.setName('godziny')
-				.setDescription('Ile godzin zostało przeznaczone na zadanie')
+				.setDescription('Ile godzin zostało przeznaczone na zadania')
 				.setRequired(true)
 				.setMinValue(1)
 				.setMaxValue(24)
+		)
+		.addStringOption((option) =>
+			option
+				.setName('zadania')
+				.setDescription('Na co został przeznaczony czas')
+				.setRequired(true)
 		),
 	execute: reportWork
 };

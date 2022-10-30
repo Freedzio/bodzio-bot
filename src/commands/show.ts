@@ -24,9 +24,11 @@ const showReport = async (interaction: ChatInputCommandInteraction) => {
 	const month = interaction.options.get('miesiąc')?.value;
 	const year = interaction.options.get('rok')?.value;
 
+	console.log(month);
+
 	const { user } = interaction;
 
-	const monthToShow = month ?? monthOptions[dayjs().get('month')].name;
+	const monthToShow = month ?? monthOptions[dayjs().get('month')].value;
 	const yearToShow = year ?? dayjs().get('year');
 
 	const reportUrl = `${(process.env.API_URL as string).replace(
