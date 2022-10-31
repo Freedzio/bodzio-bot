@@ -16,13 +16,22 @@ client.on('ready', () => {
 
 client.on(Events.InteractionCreate, async (interaction) => {
 	try {
-		if (!interaction.isChatInputCommand()) {
+		if (interaction.isChatInputCommand()) {
+			const { commandName } = interaction;
+
+			allCommands[commandName].execute(interaction, client);
+		} else if (interaction.isUserContextMenuCommand()) {
+			console.log('dupa');
+			console.log('dupa');
+			console.log('dupa');
+			console.log('dupa');
+			console.log('dupa');
+			console.log('dupa');
+			console.log('dupa');
+			console.log('dupa');
+		} else {
 			return;
 		}
-
-		const { commandName } = interaction;
-
-		allCommands[commandName].execute(interaction, client);
 	} catch (e) {
 		console.log('oopsie');
 	}

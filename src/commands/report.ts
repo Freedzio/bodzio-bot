@@ -6,7 +6,6 @@ import {
 } from 'discord.js';
 import { EndpointeEnum } from '../enpoints.enum';
 import * as dotenv from 'dotenv';
-import dayjs from 'dayjs';
 import { fetchApi } from '../common/fetch-api';
 
 dotenv.config();

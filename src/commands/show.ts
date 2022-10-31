@@ -24,8 +24,6 @@ const showReport = async (interaction: ChatInputCommandInteraction) => {
 	const month = interaction.options.get('miesiąc')?.value;
 	const year = interaction.options.get('rok')?.value;
 
-	console.log(month);
-
 	const { user } = interaction;
 
 	const monthToShow = month ?? monthOptions[dayjs().get('month')].value;
@@ -36,7 +34,9 @@ const showReport = async (interaction: ChatInputCommandInteraction) => {
 		''
 	)}/${requestedUser}/${monthToShow}/${yearToShow}`;
 
-	const content = `Raport ${requestedUser} za ${monthToShow} ${yearToShow} - ${reportUrl}`;
+	const content = `Raport ${requestedUser} za ${
+		monthOptions.find((o) => o.value.toString() === monthToShow.toString()).name
+	} ${yearToShow} - ${reportUrl}`;
 
 	await interaction.reply({ ephemeral: true, content });
 	user.createDM().then((c) => c.send(content));
