@@ -7,6 +7,7 @@ import {
 import { EndpointeEnum } from '../enpoints.enum';
 import * as dotenv from 'dotenv';
 import { fetchApi } from '../common/fetch-api';
+import { sendReport } from '../common/send-report';
 
 dotenv.config();
 
@@ -17,39 +18,11 @@ const reportWork = async (
 	interaction: ChatInputCommandInteraction,
 	client: Client
 ) => {
-	const job = interaction.options.get('zadania')?.value;
-	const hours = interaction.options.get('godziny')?.value;
+	const job = interaction.options.get('zadania')?.value as string;
+	const hours = interaction.options.get('godziny')?.value as string;
 	const { username } = interaction.user;
 
-	const yada = `**${username} - ${hours}h** \n${job
-		.toString()
-		.replace(/ \*/g, '\n*')
-		.replace(/ \-/g, '\n-')}`;
-
-	console.log();
-	console.log(yada);
-	console.log();
-
-	const response = await fetchApi(EndpointeEnum.REPORT, {
-		method: 'POST',
-		body: JSON.stringify({ job, hours, username })
-	});
-
-	if (!response.ok) {
-		return await interaction.reply({
-			content:
-				'Niestety nie udało mi się zaraportować Twojej pracy - coś poszło nie tak',
-			ephemeral: true
-		});
-	}
-
-	const mainChannel = client.guilds.cache
-		.get(process.env.GUILD_ID as string)
-		?.channels.cache.get(process.env.MAIN_CHANNEL_ID as string) as TextChannel;
-
-	await interaction.reply({ content: nonMainChannelResponse, ephemeral: true });
-
-	return await mainChannel.send(yada);
+	await sendReport(username, hours, job, interaction, client);
 };
 
 export const report = {

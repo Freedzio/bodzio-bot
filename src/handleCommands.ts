@@ -1,13 +1,15 @@
 import { REST, Routes } from 'discord.js';
 import { ping } from './commands/ping';
-import { report } from './commands/report';
 import * as dotenv from 'dotenv';
 import { show } from './commands/show';
+import { modalReport } from './commands/modal-report';
+import { report } from './commands/report';
 
 export const allCommands = {
 	ping,
 	report,
-	show
+	show,
+	Zaraportuj: modalReport
 };
 
 dotenv.config();
