@@ -23,8 +23,8 @@ const reportWork = async (
 
 	const yada = `**${username} - ${hours}h** \n${job
 		.toString()
-		.replace(/ \*/g, '\n* ')
-		.replace(/ \-/g, '\n- ')}`;
+		.replace(/ \*/g, '\n*')
+		.replace(/ \-/g, '\n-')}`;
 
 	console.log();
 	console.log(yada);
