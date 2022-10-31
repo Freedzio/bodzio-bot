@@ -18,10 +18,7 @@ export const sendReport = async (
 	client: Client,
 	messageId?: string
 ) => {
-	const reportMesage = `**${username} - ${hours}h** \n${job
-		.toString()
-		.replace(/\* */g, '\n*')
-		.replace(/\- */g, '\n-')}`;
+	const reportMesage = `**${username} - ${hours}h** \n${job}`;
 
 	console.log();
 	console.log(reportMesage);
