@@ -4,6 +4,7 @@ import {
 	ApplicationCommandType,
 	UserContextMenuCommandInteraction
 } from 'discord.js';
+import { monthOptions } from './show';
 
 const contextMenuReport = async (
 	interaction: UserContextMenuCommandInteraction
@@ -18,7 +19,9 @@ const contextMenuReport = async (
 		''
 	)}/${username}/${month}/${year}`;
 
-	const content = `Raport ${username} za ${month} ${year} - ${reportUrl}`;
+	const content = `Raport ${username} za ${
+		monthOptions.find((o) => o.value === month.toString()).name
+	} ${year} - ${reportUrl}`;
 
 	await interaction.reply({
 		ephemeral: true,
