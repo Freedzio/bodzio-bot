@@ -5,6 +5,7 @@
 	"scripts": {
 		"start": "node dist/bot.js",
 		"build": "tsc",
+		"postinstall": "tsc",
 		"dev": "nodemon ./src/bot.ts"
 	},
 	"author": "Freedzio",
