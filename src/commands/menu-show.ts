@@ -1,34 +1,35 @@
-// import dayjs from "dayjs";
-// import { ContextMenuCommandBuilder, ApplicationCommandType, ChatInputCommandInteraction, UserContextMenuCommandInteraction } from "discord.js";
+import dayjs from 'dayjs';
+import {
+	ContextMenuCommandBuilder,
+	ApplicationCommandType,
+	UserContextMenuCommandInteraction
+} from 'discord.js';
 
-// const showReport = async (interaction: UserContextMenuCommandInteraction) => {
-//     const month = interaction.options.get('miesiąc')?.value;
-// 	const year = interaction.options.get('rok')?.value;
-// 	const { username } = interaction.targetUser;
+const contextMenuReport = async (
+	interaction: UserContextMenuCommandInteraction
+) => {
+	const month = dayjs().get('month');
+	const year = dayjs().get('year');
+	const { username } = interaction.targetUser;
+	const { user } = interaction;
 
-// 	const reportUrl = `${(process.env.API_URL as string).replace(
-// 		'/api',
-// 		''
-// 	)}/${requestedUser}/${monthToShow}/${yearToShow}`;
+	const reportUrl = `${(process.env.API_URL as string).replace(
+		'/api',
+		''
+	)}/${username}/${month}/${year}`;
 
-// 	const content = `Raport ${requestedUser} za ${
-// 		monthOptions.find((o) => o.value.toString() === monthToShow.toString()).name
-// 	} ${yearToShow} - ${reportUrl}`;
+	const content = `Raport ${username} za ${month} ${year} - ${reportUrl}`;
 
-// 	if (!!interaction.channel) {
-// 		await interaction.reply({
-// 			ephemeral: true,
-// 			content: 'Sprawdź DMki ziomek'
-// 		});
-// 		user.createDM().then((c) => c.send(content));
-// 	} else {
-// 		await interaction.reply({ ephemeral: true, content });
-// 	}
-// };
+	await interaction.reply({
+		ephemeral: true,
+		content: 'Sprawdź DMki ziomek'
+	});
+	user.createDM().then((c) => c.send(content));
+};
 
-// export const menuShow = {
-// 	data: new ContextMenuCommandBuilder()
-// 		.setName('Pokaż raport')
-// 		.setType(ApplicationCommandType.Message),
-// 	execute: modalAction
-// };
+export const menuShow = {
+	data: new ContextMenuCommandBuilder()
+		.setName('Pokaż raport')
+		.setType(ApplicationCommandType.User),
+	execute: contextMenuReport
+};

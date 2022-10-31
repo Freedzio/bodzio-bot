@@ -3,11 +3,13 @@ import * as dotenv from 'dotenv';
 import { show } from './commands/show';
 import { modalReport } from './commands/modal-report';
 import { report } from './commands/report';
+import { menuShow } from './commands/menu-show';
 
 export const allCommands = {
 	report,
 	show,
-	Zaraportuj: modalReport
+	Zaraportuj: modalReport,
+	'Pokaż raport': menuShow
 };
 
 dotenv.config();

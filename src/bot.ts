@@ -18,7 +18,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
 	try {
 		if (
 			interaction.isChatInputCommand() ||
-			interaction.isMessageContextMenuCommand()
+			interaction.isMessageContextMenuCommand() ||
+			interaction.isUserContextMenuCommand()
 		) {
 			const { commandName } = interaction;
 			allCommands[commandName].execute(interaction, client);
