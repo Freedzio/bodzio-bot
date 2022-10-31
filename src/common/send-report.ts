@@ -15,7 +15,8 @@ export const sendReport = async (
 	hours: string,
 	job: string,
 	interaction: ChatInputCommandInteraction | ModalSubmitInteraction,
-	client: Client
+	client: Client,
+	messageId?: string
 ) => {
 	const reportMesage = `**${username} - ${hours}h** \n${job
 		.toString()
@@ -28,7 +29,7 @@ export const sendReport = async (
 
 	const response = await fetchApi(EndpointeEnum.REPORT, {
 		method: 'POST',
-		body: JSON.stringify({ job, hours, username })
+		body: JSON.stringify({ job, hours, username, messageId })
 	});
 
 	const result = (await response).json();

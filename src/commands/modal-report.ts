@@ -39,11 +39,20 @@ const modalAction = async (
 	interaction.awaitModalSubmit({ time: 999999 }).then((data) => {
 		const hours = parseFloat(data.fields.getTextInputValue('hoursInput'));
 		if (isNaN(hours)) {
-			data.reply(
-				'Niestety, nie zrozumiałem ile czasu poświęciłeś/aś na te prace. Proszę, zaraportuj ponownie i upewnij się, że wszystko jest w porządalku :)'
-			);
+			data.reply({
+				content:
+					'Niestety, nie zrozumiałem ile czasu poświęciłeś/aś na te prace. Proszę, zaraportuj ponownie i upewnij się, że wszystko jest w porządalku :)',
+				ephemeral: true
+			});
 		} else {
-			sendReport(username, hours.toString(), job, data, client);
+			sendReport(
+				username,
+				hours.toString(),
+				job,
+				data,
+				client,
+				interaction.targetMessage.id
+			);
 		}
 	});
 };

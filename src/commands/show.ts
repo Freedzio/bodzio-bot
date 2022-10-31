@@ -38,7 +38,7 @@ const showReport = async (interaction: ChatInputCommandInteraction) => {
 		monthOptions.find((o) => o.value.toString() === monthToShow.toString()).name
 	} ${yearToShow} - ${reportUrl}`;
 
-	await interaction.reply({ ephemeral: true, content });
+	await interaction.reply({ ephemeral: true, content: 'Sprawdź DMki ziomek' });
 	user.createDM().then((c) => c.send(content));
 };
 

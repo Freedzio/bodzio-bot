@@ -1,12 +1,10 @@
 import { REST, Routes } from 'discord.js';
-import { ping } from './commands/ping';
 import * as dotenv from 'dotenv';
 import { show } from './commands/show';
 import { modalReport } from './commands/modal-report';
 import { report } from './commands/report';
 
 export const allCommands = {
-	ping,
 	report,
 	show,
 	Zaraportuj: modalReport
