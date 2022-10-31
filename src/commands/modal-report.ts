@@ -17,6 +17,12 @@ const modalAction = async (
 	interaction: MessageContextMenuCommandInteraction,
 	client: Client
 ) => {
+	if (interaction.targetMessage.author.bot) {
+		return interaction.reply({
+			content: 'To bocia wiadomość, nie możesz jej zaraportować',
+			ephemeral: true
+		});
+	}
 	const { username } = interaction.targetMessage.author;
 	const job = interaction.targetMessage.content;
 

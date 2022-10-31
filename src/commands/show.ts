@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 
 dotenv.config();
 
-const monthOptions = [
+export const monthOptions = [
 	{ value: '0', name: 'styczeń' },
 	{ value: '1', name: 'luty' },
 	{ value: '2', name: 'marzec' },
