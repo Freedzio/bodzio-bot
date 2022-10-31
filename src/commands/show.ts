@@ -38,8 +38,15 @@ const showReport = async (interaction: ChatInputCommandInteraction) => {
 		monthOptions.find((o) => o.value.toString() === monthToShow.toString()).name
 	} ${yearToShow} - ${reportUrl}`;
 
-	await interaction.reply({ ephemeral: true, content: 'Sprawdź DMki ziomek' });
-	user.createDM().then((c) => c.send(content));
+	if (!!interaction.channel) {
+		await interaction.reply({
+			ephemeral: true,
+			content: 'Sprawdź DMki ziomek'
+		});
+		user.createDM().then((c) => c.send(content));
+	} else {
+		await interaction.reply({ ephemeral: true, content });
+	}
 };
 
 export const show = {
