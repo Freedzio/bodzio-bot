@@ -23,6 +23,7 @@ const modalAction = async (
 			ephemeral: true
 		});
 	}
+
 	const { username } = interaction.targetMessage.author;
 	const job = interaction.targetMessage.content;
 
@@ -57,7 +58,7 @@ const modalAction = async (
 				job,
 				data,
 				client,
-				interaction.targetMessage.id
+				interaction.targetMessage
 			);
 		}
 	});

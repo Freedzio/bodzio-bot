@@ -1,6 +1,7 @@
 import {
 	ChatInputCommandInteraction,
 	Client,
+	Message,
 	ModalSubmitInteraction,
 	TextChannel
 } from 'discord.js';
@@ -16,24 +17,33 @@ export const sendReport = async (
 	job: string,
 	interaction: ChatInputCommandInteraction | ModalSubmitInteraction,
 	client: Client,
-	messageId?: string
+	message?: Message
 ) => {
-	const reportMesage = `**${username} - ${hours}h** \n${job}`;
+	const replyWithJob = `**${username} - ${hours}h** \n${job}`;
+	const replyWithoutJob = `**${username} - ${hours}h**`;
 
 	console.log();
-	console.log(reportMesage);
+	console.log(replyWithJob);
 	console.log();
 
 	const response = await fetchApi(EndpointeEnum.REPORT, {
 		method: 'POST',
-		body: JSON.stringify({ job, hours, username, messageId })
+		body: JSON.stringify({
+			username,
+			reporter: interaction.user.username,
+			job,
+			hours,
+			lastEditAt: message?.editedTimestamp,
+			messageAt: message?.createdTimestamp,
+			messageId: message?.id
+		})
 	});
 
-	const result = (await response).json();
-
-	console.log(await result);
-
 	if (!response.ok) {
+		const result = (await response).json();
+
+		console.log(await result);
+
 		return await interaction.reply({
 			content:
 				'Niestety nie udało mi się zaraportować Twojej pracy - coś poszło nie tak',
@@ -45,7 +55,13 @@ export const sendReport = async (
 		.get(process.env.GUILD_ID as string)
 		?.channels.cache.get(process.env.MAIN_CHANNEL_ID as string) as TextChannel;
 
-	await interaction.reply({ content: nonMainChannelResponse, ephemeral: true });
+	if (message?.channelId === mainChannel.id) {
+		return await interaction.reply({
+			content: 'Pomyślnie zapisano raport',
+			ephemeral: true
+		});
+	}
 
-	return await mainChannel.send(reportMesage);
+	await mainChannel.send(replyWithJob);
+	await interaction.reply({ content: nonMainChannelResponse, ephemeral: true });
 };
