@@ -56,6 +56,7 @@ export const sendReport = async (
 		?.channels.cache.get(process.env.MAIN_CHANNEL_ID as string) as TextChannel;
 
 	if (message?.channelId === mainChannel.id) {
+		await message.reply(replyWithoutJob);
 		return await interaction.reply({
 			content: 'Pomyślnie zapisano raport',
 			ephemeral: true
