@@ -13,6 +13,21 @@ import { sendReport } from '../common/send-report';
 
 const reactions = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
 
+const modal = new ModalBuilder()
+	.setCustomId('reportModal')
+	.setTitle('Zaraportuj czas pracy');
+
+const hoursInput = new TextInputBuilder()
+	.setCustomId('hoursInput')
+	.setLabel('Ile godzin spędziłeś/aś na te prace?')
+	.setStyle(TextInputStyle.Short);
+
+const firstActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
+	hoursInput
+);
+
+modal.addComponents(firstActionRow);
+
 const modalAction = async (
 	interaction: MessageContextMenuCommandInteraction,
 	client: Client
@@ -27,20 +42,6 @@ const modalAction = async (
 	const { username } = interaction.targetMessage.author;
 	const job = interaction.targetMessage.content;
 
-	const modal = new ModalBuilder()
-		.setCustomId('reportModal')
-		.setTitle('Zaraportuj czas pracy');
-
-	const hoursInput = new TextInputBuilder()
-		.setCustomId('hoursInput')
-		.setLabel('Ile godzin spędziłeś/aś na te prace?')
-		.setStyle(TextInputStyle.Short);
-
-	const firstActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
-		hoursInput
-	);
-
-	modal.addComponents(firstActionRow);
 	await interaction.showModal(modal);
 
 	interaction.awaitModalSubmit({ time: 999999 }).then((data) => {

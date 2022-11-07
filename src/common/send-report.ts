@@ -11,6 +11,8 @@ import { fetchApi } from './fetch-api';
 const nonMainChannelResponse =
 	'Oksik, poinformowałem pozostałe Hobośki o Twoich poczynaniach :)';
 
+const { GUILD_ID, MAIN_CHANNEL_ID } = process.env;
+
 export const sendReport = async (
 	username: string,
 	hours: string,
@@ -19,6 +21,8 @@ export const sendReport = async (
 	client: Client,
 	message?: Message
 ) => {
+	await interaction.reply({ content: 'Pracuję nad tym...', ephemeral: true });
+
 	const replyWithJob = `**${username} - ${hours}h** \n${job}`;
 	const replyWithoutJob = `**${username} - ${hours}h**`;
 
@@ -52,17 +56,22 @@ export const sendReport = async (
 	}
 
 	const mainChannel = client.guilds.cache
-		.get(process.env.GUILD_ID as string)
-		?.channels.cache.get(process.env.MAIN_CHANNEL_ID as string) as TextChannel;
+		.get(GUILD_ID as string)
+		?.channels.cache.get(MAIN_CHANNEL_ID as string) as TextChannel;
 
 	if (message?.channelId === mainChannel.id) {
 		await message.reply(replyWithoutJob);
-		return await interaction.reply({
+
+		return await interaction.followUp({
 			content: 'Pomyślnie zapisano raport',
 			ephemeral: true
 		});
 	}
 
 	await mainChannel.send(replyWithJob);
-	await interaction.reply({ content: nonMainChannelResponse, ephemeral: true });
+
+	await interaction.followUp({
+		content: nonMainChannelResponse,
+		ephemeral: true
+	});
 };

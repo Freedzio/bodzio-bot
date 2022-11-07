@@ -1,18 +1,12 @@
 import {
 	ChatInputCommandInteraction,
 	SlashCommandBuilder,
-	TextChannel,
 	Client
 } from 'discord.js';
-import { EndpointeEnum } from '../enpoints.enum';
 import * as dotenv from 'dotenv';
-import { fetchApi } from '../common/fetch-api';
 import { sendReport } from '../common/send-report';
 
 dotenv.config();
-
-const nonMainChannelResponse =
-	'Oksik, poinformowałem pozostałe Hobośki o Twoich poczynaniach :)';
 
 const reportWork = async (
 	interaction: ChatInputCommandInteraction,

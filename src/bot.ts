@@ -4,7 +4,7 @@ import { allCommands, registerCommands } from './handleCommands';
 
 dotenv.config();
 
-const token = process.env.BOT_TOKEN as string;
+const { BOT_TOKEN } = process.env;
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -31,4 +31,4 @@ client.on(Events.InteractionCreate, async (interaction) => {
 	}
 });
 
-client.login(token);
+client.login(BOT_TOKEN);
