@@ -28,7 +28,7 @@ export const report = {
 				.setName('godziny')
 				.setDescription('Ile godzin zostało przeznaczone na zadania')
 				.setRequired(true)
-				.setMinValue(1)
+				.setMinValue(0.1)
 				.setMaxValue(24)
 		)
 		.addStringOption((option) =>

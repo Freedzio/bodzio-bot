@@ -45,7 +45,9 @@ const modalAction = async (
 	await interaction.showModal(modal);
 
 	interaction.awaitModalSubmit({ time: 999999 }).then((data) => {
-		const hours = parseFloat(data.fields.getTextInputValue('hoursInput'));
+		const hours = parseFloat(
+			data.fields.getTextInputValue('hoursInput').replace(',', '.')
+		);
 		if (isNaN(hours)) {
 			data.reply({
 				content:
