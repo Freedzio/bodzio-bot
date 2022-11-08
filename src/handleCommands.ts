@@ -4,6 +4,7 @@ import { show } from './commands/show';
 import { modalReport } from './commands/modal-report';
 import { report } from './commands/report';
 import { menuShow } from './commands/menu-show';
+import dayjs from 'dayjs';
 
 export const allCommands = {
 	report,
@@ -22,6 +23,7 @@ const rest = new REST({ version: '10' }).setToken(token);
 
 export const registerCommands = async () => {
 	const commands = Object.values(allCommands);
+
 	try {
 		console.log(
 			`Started refreshing ${commands.length} application (/) commands.`
@@ -37,6 +39,10 @@ export const registerCommands = async () => {
 		);
 	} catch (error) {
 		// And of course, make sure you catch and log any errors!
-		console.error(error);
+
+		console.error(
+			dayjs().format('HH:mm DD.MM.YYYY'),
+			JSON.stringify(error, null, 2)
+		);
 	}
 };
