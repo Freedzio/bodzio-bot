@@ -40,9 +40,6 @@ export const registerCommands = async () => {
 	} catch (error) {
 		// And of course, make sure you catch and log any errors!
 
-		console.error(
-			dayjs().format('HH:mm DD.MM.YYYY'),
-			JSON.stringify(error, null, 2)
-		);
+		console.error(dayjs().format('HH:mm DD.MM.YYYY'), error);
 	}
 };
