@@ -21,7 +21,7 @@ export const sendReport = async (
 	client: Client,
 	message?: Message
 ) => {
-	await interaction.reply({ content: 'Pracuję nad tym...', ephemeral: true });
+	await interaction.deferReply({ ephemeral: true });
 
 	const replyWithJob = `**${username} - ${hours}h** \n${job}`;
 	const replyWithoutJob = `**${username} - ${hours}h**`;
@@ -48,7 +48,7 @@ export const sendReport = async (
 
 		console.log(await result);
 
-		return await interaction.reply({
+		return await interaction.followUp({
 			content:
 				'Niestety nie udało mi się zaraportować Twojej pracy - coś poszło nie tak',
 			ephemeral: true
