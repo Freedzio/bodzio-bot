@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, Events } from 'discord.js';
+import { Client, GatewayIntentBits, Events, Interaction } from 'discord.js';
 import * as dotenv from 'dotenv';
 import { allCommands, registerCommands } from './handleCommands';
 
@@ -14,7 +14,7 @@ client.on('ready', () => {
 	console.log(`Logged in as ${client?.user?.tag}!`);
 });
 
-client.on(Events.InteractionCreate, async (interaction) => {
+client.on(Events.InteractionCreate, async (interaction: Interaction<any>) => {
 	try {
 		if (
 			interaction.isChatInputCommand() ||

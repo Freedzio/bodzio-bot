@@ -1,4 +1,5 @@
 import {
+	Attachment,
 	ChatInputCommandInteraction,
 	Client,
 	Message,
@@ -12,6 +13,14 @@ const nonMainChannelResponse =
 	'Oksik, poinformowałem pozostałe Hobośki o Twoich poczynaniach :)';
 
 const { GUILD_ID, MAIN_CHANNEL_ID } = process.env;
+
+const allowedExtensions = ['mkv', 'jpg', 'png', 'jpeg'];
+
+const shouldAllowAttachment = (attachment: Attachment) => {
+	return allowedExtensions.includes(
+		attachment.attachment.toString().split('.').pop().toLowerCase()
+	);
+};
 
 export const sendReport = async (
 	username: string,
@@ -27,7 +36,7 @@ export const sendReport = async (
 	const replyWithoutJob = `**${username} - ${hours}h**`;
 
 	console.log();
-	console.log(replyWithJob);
+	console.log(interaction.type, replyWithJob);
 	console.log();
 
 	const response = await fetchApi(EndpointeEnum.REPORT, {
@@ -39,7 +48,12 @@ export const sendReport = async (
 			hours,
 			lastEditAt: message?.editedTimestamp,
 			messageAt: message?.createdTimestamp,
-			messageId: message?.id
+			messageId: message?.id,
+			attachments: message?.attachments.map((a) => ({
+				url: a.attachment.toString(),
+				name: a.name
+			})),
+			link: message?.url.replace('https', 'discord')
 		})
 	});
 

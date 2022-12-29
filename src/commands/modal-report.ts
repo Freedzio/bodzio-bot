@@ -44,7 +44,7 @@ const modalAction = async (
 
 	await interaction.showModal(modal);
 
-	interaction.awaitModalSubmit({ time: 999999 }).then((data) => {
+	interaction.awaitModalSubmit({ time: 1000 * 60 * 60 }).then((data) => {
 		const hours = parseFloat(
 			data.fields.getTextInputValue('hoursInput').replace(',', '.')
 		);
