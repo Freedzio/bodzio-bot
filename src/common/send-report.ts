@@ -29,6 +29,7 @@ export const sendReport = async (
 
 	const replyWithJob = `**${username} - ${hours}h** \n${job}`;
 	const replyWithoutJob = `**${username} - ${hours}h**`;
+	const secretReply = `**${username} - ${hours}h** \nPrezesowane`;
 
 	console.log();
 	console.log(replyWithJob);
@@ -65,22 +66,24 @@ export const sendReport = async (
 		});
 	}
 
-	if (!isSecret) {
-		const mainChannel = client.guilds.cache
-			.get(GUILD_ID as string)
-			?.channels.cache.get(MAIN_CHANNEL_ID as string) as TextChannel;
+	const mainChannel = client.guilds.cache
+		.get(GUILD_ID as string)
+		?.channels.cache.get(MAIN_CHANNEL_ID as string) as TextChannel;
 
-		if (message?.channelId === mainChannel.id) {
-			await message.reply(replyWithoutJob);
-
-			return await interaction.followUp({
-				content: 'Pomyślnie zapisano raport',
-				ephemeral: true
-			});
+	if (message?.channelId === mainChannel.id) {
+		if (!isSecret) {
+			await message.reply(isSecret ? secretReply : replyWithoutJob);
+		} else {
+			await mainChannel.send(secretReply);
 		}
 
-		await mainChannel.send(replyWithJob);
+		return await interaction.followUp({
+			content: 'Pomyślnie zapisano raport',
+			ephemeral: true
+		});
 	}
+
+	await mainChannel.send(isSecret ? secretReply : replyWithJob);
 
 	await interaction.followUp({
 		content: isSecret ? secretResponse : nonMainChannelResponse,
