@@ -6,13 +6,15 @@ import { report } from './commands/report';
 import { menuShow } from './commands/menu-show';
 import dayjs from 'dayjs';
 import { balance } from './commands/balance';
+import { secretReport } from './commands/secret-report';
 
 export const allCommands = {
 	report,
 	show,
 	Zaraportuj: modalReport,
 	'Pokaż raport': menuShow,
-	'Pokaż bilans': balance
+	'Pokaż bilans': balance,
+	'Zaraportuj dyskretnie': secretReport
 };
 
 dotenv.config();

@@ -12,15 +12,9 @@ import { fetchApi } from './fetch-api';
 const nonMainChannelResponse =
 	'Oksik, poinformowałem pozostałe Hobośki o Twoich poczynaniach :)';
 
+const secretResponse = 'Zapisałem i nic nikomu nie powiedziałem';
+
 const { GUILD_ID, MAIN_CHANNEL_ID } = process.env;
-
-const allowedExtensions = ['mkv', 'jpg', 'png', 'jpeg'];
-
-const shouldAllowAttachment = (attachment: Attachment) => {
-	return allowedExtensions.includes(
-		attachment.attachment.toString().split('.').pop().toLowerCase()
-	);
-};
 
 export const sendReport = async (
 	username: string,
@@ -28,7 +22,8 @@ export const sendReport = async (
 	job: string,
 	interaction: ChatInputCommandInteraction | ModalSubmitInteraction,
 	client: Client,
-	message?: Message
+	message?: Message,
+	isSecret = false
 ) => {
 	await interaction.deferReply({ ephemeral: true });
 
@@ -36,7 +31,7 @@ export const sendReport = async (
 	const replyWithoutJob = `**${username} - ${hours}h**`;
 
 	console.log();
-	console.log(interaction.type, replyWithJob);
+	console.log(replyWithJob);
 	console.log();
 
 	const response = await fetchApi(EndpointeEnum.REPORT, {
@@ -53,7 +48,8 @@ export const sendReport = async (
 				url: a.attachment.toString(),
 				name: a.name
 			})),
-			link: message?.url.replace('https', 'discord')
+			link: message?.url.replace('https', 'discord'),
+			isSecret
 		})
 	});
 
@@ -69,23 +65,25 @@ export const sendReport = async (
 		});
 	}
 
-	const mainChannel = client.guilds.cache
-		.get(GUILD_ID as string)
-		?.channels.cache.get(MAIN_CHANNEL_ID as string) as TextChannel;
+	if (!isSecret) {
+		const mainChannel = client.guilds.cache
+			.get(GUILD_ID as string)
+			?.channels.cache.get(MAIN_CHANNEL_ID as string) as TextChannel;
 
-	if (message?.channelId === mainChannel.id) {
-		await message.reply(replyWithoutJob);
+		if (message?.channelId === mainChannel.id) {
+			await message.reply(replyWithoutJob);
 
-		return await interaction.followUp({
-			content: 'Pomyślnie zapisano raport',
-			ephemeral: true
-		});
+			return await interaction.followUp({
+				content: 'Pomyślnie zapisano raport',
+				ephemeral: true
+			});
+		}
+
+		await mainChannel.send(replyWithJob);
 	}
 
-	await mainChannel.send(replyWithJob);
-
 	await interaction.followUp({
-		content: nonMainChannelResponse,
+		content: isSecret ? secretResponse : nonMainChannelResponse,
 		ephemeral: true
 	});
 };
