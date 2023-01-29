@@ -5,12 +5,14 @@ import { modalReport } from './commands/modal-report';
 import { report } from './commands/report';
 import { menuShow } from './commands/menu-show';
 import dayjs from 'dayjs';
+import { balance } from './commands/balance';
 
 export const allCommands = {
 	report,
 	show,
 	Zaraportuj: modalReport,
-	'Pokaż raport': menuShow
+	'Pokaż raport': menuShow,
+	'Pokaż bilans': balance
 };
 
 dotenv.config();
