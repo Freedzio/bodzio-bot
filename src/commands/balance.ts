@@ -9,6 +9,8 @@ import { fetchApi } from '../common/fetch-api';
 import { EndpointeEnum } from '../enpoints.enum';
 
 const getBalance = async (interaction: UserContextMenuCommandInteraction) => {
+	await interaction.deferReply({ ephemeral: true });
+
 	const requestedUser = interaction.targetUser.username;
 
 	const response = await fetchApi(EndpointeEnum.BALANCE, {
@@ -23,7 +25,7 @@ const getBalance = async (interaction: UserContextMenuCommandInteraction) => {
 
 		console.log(await result);
 
-		return await interaction.reply({
+		return await interaction.followUp({
 			content: `Niestety nie udało mi się pobrać bilansu dla ${requestedUser} - coś poszło nie tak`,
 			ephemeral: true
 		});
@@ -32,7 +34,7 @@ const getBalance = async (interaction: UserContextMenuCommandInteraction) => {
 	const data = (await response).json();
 	const balance = (await data).balance;
 
-	await interaction.reply({
+	await interaction.followUp({
 		ephemeral: true,
 		content: `Balans użytkownika ${requestedUser} wynosi **${
 			balance > 0 ? '+' : ''
