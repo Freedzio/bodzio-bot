@@ -1,5 +1,4 @@
 import {
-	Attachment,
 	ChatInputCommandInteraction,
 	Client,
 	Message,

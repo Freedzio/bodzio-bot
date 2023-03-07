@@ -7,6 +7,7 @@ import { menuShow } from './commands/menu-show';
 import dayjs from 'dayjs';
 import { balance } from './commands/balance';
 import { secretReport } from './commands/secret-report';
+import { modalSetDayDuration } from './commands/menu-set-day-duration';
 
 export const allCommands = {
 	report,
@@ -14,7 +15,8 @@ export const allCommands = {
 	Zaraportuj: modalReport,
 	'Pokaż raport': menuShow,
 	'Pokaż bilans': balance,
-	'Zaraportuj dyskretnie': secretReport
+	'Zaraportuj dyskretnie': secretReport,
+	'Ustaw godziny': modalSetDayDuration
 };
 
 dotenv.config();
