@@ -73,12 +73,12 @@ const dayDurationModalAction = async (
 			});
 		}
 
-		if (dayjs().startOf('day').isAfter(dayjs(fromDate))) {
-			return data.reply({
-				content: 'Niepoprawna wartość. Data nie może być wsteczna',
-				ephemeral: true
-			});
-		}
+		// if (dayjs().startOf('day').isAfter(dayjs(fromDate))) {
+		// 	return data.reply({
+		// 		content: 'Niepoprawna wartość. Data nie może być wsteczna',
+		// 		ephemeral: true
+		// 	});
+		// }
 
 		if (dayjs(fromDate, 'DD.MM.YYYY').format() === 'Invalid Date') {
 			return data.reply({
