@@ -45,7 +45,7 @@ export const sendReport = async (
 			messageAt: message?.createdTimestamp,
 			messageId: message?.id,
 			attachments: message?.attachments.map((a) => ({
-				url: a.attachment.toString(),
+				url: a.url,
 				name: a.name
 			})),
 			link: message?.url.replace('https', 'discord'),
