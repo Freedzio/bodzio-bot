@@ -21,6 +21,11 @@ client.on(Events.InteractionCreate, async (interaction: Interaction<any>) => {
 			interaction.isMessageContextMenuCommand() ||
 			interaction.isUserContextMenuCommand()
 		) {
+			console.log(`
+			USER ${interaction.user.username}
+			COMMAND ${interaction.commandName}
+			`);
+
 			const { commandName } = interaction;
 			allCommands[commandName].execute(interaction, client);
 		}
