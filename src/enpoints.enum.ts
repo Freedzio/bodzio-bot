@@ -1,6 +1,6 @@
 export enum EndpointeEnum {
-	REPORT = '/report',
 	SHOW = '/show',
+	REPORT = '/report',
 	BALANCE = '/balance',
 	DAY_DURATION = '/day-duration'
 }
