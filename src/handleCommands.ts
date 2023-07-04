@@ -30,6 +30,10 @@ const rest = new REST({ version: '10' }).setToken(token);
 export const registerCommands = async () => {
 	const commands = Object.values(allCommands);
 
+	console.log(token);
+	console.log(token);
+	console.log(token);
+
 	try {
 		console.log(
 			`Started refreshing ${commands.length} application (/) commands.`
