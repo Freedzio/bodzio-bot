@@ -27,7 +27,7 @@ client.on(Events.InteractionCreate, async (interaction: Interaction<any>) => {
 			);
 
 			const { commandName } = interaction;
-			allCommands[commandName].execute(interaction, client);
+			await allCommands[commandName].execute(interaction, client);
 		}
 
 		return;
