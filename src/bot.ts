@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { Client, GatewayIntentBits, Events, Interaction } from 'discord.js';
 import * as dotenv from 'dotenv';
 import { allCommands, registerCommands } from './handleCommands';
@@ -31,6 +32,7 @@ client.on(Events.InteractionCreate, async (interaction: Interaction<any>) => {
 
 		return;
 	} catch (e) {
+		console.log(dayjs().toISOString());
 		console.log(e);
 	}
 });
