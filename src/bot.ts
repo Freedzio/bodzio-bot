@@ -22,6 +22,8 @@ client.on(Events.InteractionCreate, async (interaction: Interaction<any>) => {
 			interaction.isMessageContextMenuCommand() ||
 			interaction.isUserContextMenuCommand()
 		) {
+			console.log('----------------------------------');
+			console.log(dayjs().format());
 			console.log(
 				`USER ${interaction.user.username}\nCOMMAND ${interaction.commandName}`
 			);

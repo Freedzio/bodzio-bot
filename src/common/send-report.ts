@@ -7,6 +7,7 @@ import {
 } from 'discord.js';
 import { EndpointeEnum } from '../enpoints.enum';
 import { fetchApi } from './fetch-api';
+import dayjs from 'dayjs';
 
 const nonMainChannelResponse =
 	'Oksik, poinformowałem pozostałe Hobośki o Twoich poczynaniach :)';
