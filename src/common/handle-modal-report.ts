@@ -8,26 +8,31 @@ import {
 } from 'discord.js';
 import { sendReport } from './send-report';
 
-const modal = new ModalBuilder()
-	.setCustomId('reportModal')
-	.setTitle('Zaraportuj czas pracy');
+const modal = (isPto: boolean) =>
+	new ModalBuilder()
+		.setCustomId('reportModal')
+		.setTitle(`Zaraportuj ${isPto ? 'urlop' : 'czas pracy'}`);
 
-const hoursInput = new TextInputBuilder()
-	.setCustomId('hoursInput')
-	.setLabel('Ile godzin spędziłeś/aś na te prace?')
-	.setStyle(TextInputStyle.Short);
+const hoursInput = (isPto: boolean) =>
+	new TextInputBuilder()
+		.setCustomId('hoursInput')
+		.setLabel(`Ile godzin spędziłeś/aś na ${isPto ? 'urlopie' : 'te prace'}?`)
+		.setStyle(TextInputStyle.Short);
 
-const firstActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
-	hoursInput
-);
+const firstActionRow = (isPto: boolean) =>
+	new ActionRowBuilder<TextInputBuilder>().addComponents(hoursInput(isPto));
 
-modal.addComponents(firstActionRow);
+const createModal = (isPto: boolean) =>
+	modal(isPto).addComponents(firstActionRow(isPto));
 
 export const modalAction = async (
 	interaction: MessageContextMenuCommandInteraction,
 	client: Client,
-	isSecret = false
+	isSecret = false,
+	isPto = false
 ) => {
+	const yada = createModal(isPto);
+
 	if (interaction.targetMessage.author.bot) {
 		return interaction.reply({
 			content: 'To bocia wiadomość, nie możesz jej zaraportować',
@@ -38,7 +43,7 @@ export const modalAction = async (
 	const { username } = interaction.targetMessage.author;
 	const job = interaction.targetMessage.content;
 
-	await interaction.showModal(modal);
+	await interaction.showModal(yada);
 
 	interaction.awaitModalSubmit({ time: 1000 * 60 * 60 }).then((data) => {
 		const hours = parseFloat(
@@ -58,7 +63,8 @@ export const modalAction = async (
 				data,
 				client,
 				interaction.targetMessage,
-				isSecret
+				isSecret,
+				isPto
 			);
 		}
 	});

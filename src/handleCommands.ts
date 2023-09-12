@@ -8,11 +8,13 @@ import dayjs from 'dayjs';
 import { balance } from './commands/balance';
 import { secretReport } from './commands/secret-report';
 import { modalSetDayDuration } from './commands/menu-set-day-duration';
+import { ptoReport } from './commands/pto-report';
 
 export const allCommands = {
 	report,
 	show,
 	Zaraportuj: modalReport,
+	'Zaraportuj urlop': ptoReport,
 	'Pokaż raport': menuShow,
 	'Pokaż bilans': balance,
 	'Zaraportuj dyskretnie': secretReport,

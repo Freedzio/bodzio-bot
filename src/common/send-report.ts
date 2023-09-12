@@ -7,7 +7,6 @@ import {
 } from 'discord.js';
 import { EndpointeEnum } from '../enpoints.enum';
 import { fetchApi } from './fetch-api';
-import dayjs from 'dayjs';
 
 const nonMainChannelResponse =
 	'Oksik, poinformowałem pozostałe Hobośki o Twoich poczynaniach :)';
@@ -23,13 +22,18 @@ export const sendReport = async (
 	interaction: ChatInputCommandInteraction | ModalSubmitInteraction,
 	client: Client,
 	message?: Message,
-	isSecret = false
+	isSecret = false,
+	isPto = false
 ) => {
 	await interaction.deferReply({ ephemeral: true });
 
-	const replyWithJob = `**${username} - ${hours}h** \n${job}`;
-	const replyWithoutJob = `**${username} - ${hours}h**`;
-	const secretReply = `**${username} - ${hours}h** \nPrezesowane`;
+	const replyWithJob = `**${username} - ${hours}h** \n${job} ${
+		isPto ? 'URLOP' : ''
+	}`;
+	const replyWithoutJob = `**${username} - ${hours}h** ${isPto ? 'URLOP' : ''}`;
+	const secretReply = `**${username} - ${hours}h** ${
+		isPto ? 'URLOP' : ''
+	} \nPrezesowane`;
 
 	console.log();
 	console.log(replyWithJob);
@@ -50,7 +54,8 @@ export const sendReport = async (
 				name: a.name
 			})),
 			link: message?.url.replace('https', 'discord'),
-			isSecret
+			isSecret,
+			isPto
 		})
 	});
 
@@ -60,8 +65,9 @@ export const sendReport = async (
 		console.log(await result);
 
 		return await interaction.followUp({
-			content:
-				'Niestety nie udało mi się zaraportować Twojej pracy - coś poszło nie tak',
+			content: `Niestety nie udało mi się zaraportować ${
+				isPto ? 'Twojego urlopu' : 'Twojej pracy'
+			} - coś poszło nie tak`,
 			ephemeral: true
 		});
 	}
@@ -78,7 +84,7 @@ export const sendReport = async (
 		}
 
 		return await interaction.followUp({
-			content: 'Pomyślnie zapisano raport',
+			content: `Pomyślnie zapisano ${isPto ? 'urlop' : 'ra[prt'}`,
 			ephemeral: true
 		});
 	}
