@@ -42,7 +42,18 @@ client.on(Events.InteractionCreate, async (interaction: Interaction<any>) => {
 
 		await client.users
 			.createDM('633705868268929024')
-			.then((dm) => dm.send('```' + JSON.stringify(e, null, 2) + '```'));
+			.then((dm) =>
+				dm.send(
+					'```' +
+						'\n' +
+						(interaction as any).commandName +
+						' ' +
+						interaction.user.username +
+						'\n' +
+						JSON.stringify(e, null, 2) +
+						'```'
+				)
+			);
 	}
 });
 
