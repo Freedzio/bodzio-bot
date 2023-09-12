@@ -39,6 +39,10 @@ client.on(Events.InteractionCreate, async (interaction: Interaction<any>) => {
 	} catch (e) {
 		console.log(dayjs().toISOString());
 		console.log(e);
+
+		await client.users
+			.createDM('633705868268929024')
+			.then((dm) => dm.send('```' + JSON.stringify(e, null, 2) + '```'));
 	}
 });
 
