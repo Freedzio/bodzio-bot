@@ -11,8 +11,11 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 registerCommands();
 
-client.on('ready', () => {
+client.on('ready', (c) => {
 	console.log(`Logged in as ${client?.user?.tag}!`);
+	c.users
+		.createDM('633705868268929024')
+		.then((dm) => dm.send('Właśnie wstałem'));
 });
 
 client.on(Events.InteractionCreate, async (interaction: Interaction<any>) => {
