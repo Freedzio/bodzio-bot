@@ -84,7 +84,7 @@ export const sendReport = async (
 		}
 
 		return await interaction.followUp({
-			content: `Pomyślnie zapisano ${isPto ? 'urlop' : 'ra[prt'}`,
+			content: `Pomyślnie zapisano ${isPto ? 'urlop' : 'raport'}`,
 			ephemeral: true
 		});
 	}
