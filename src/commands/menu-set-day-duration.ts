@@ -78,10 +78,10 @@ const dayDurationModalAction = async (
 		}
 
 		// if (dayjs().startOf("day").isAfter(fromDateObject)) {
-		//   return data.reply({
-		//     content: "Niepoprawna wartość. Data nie może być wsteczna",
-		//     ephemeral: true,
-		//   });
+		// 	return data.reply({
+		// 		content: "Niepoprawna wartość. Data nie może być wsteczna",
+		// 		ephemeral: true,
+		// 	});
 		// }
 
 		if (fromDateObject.format() === "Invalid Date") {
