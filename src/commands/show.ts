@@ -34,14 +34,14 @@ const showReport = async (interaction: ChatInputCommandInteraction) => {
 		""
 	)}/${requestedUser}/${monthToShow}/${yearToShow}`;
 
-	const content = `Raport ${requestedUser} za ${
+	const content = `${requestedUser}'s work report for ${
 		monthOptions.find((o) => o.value.toString() === monthToShow.toString()).name
 	} ${yearToShow} - ${reportUrl}`;
 
 	if (!!interaction.channel) {
 		await interaction.reply({
 			ephemeral: true,
-			content: "Sprawdź DMki ziomek",
+			content: "Yo, check yo DMs",
 		});
 		user.createDM().then((c) => c.send(content));
 	} else {

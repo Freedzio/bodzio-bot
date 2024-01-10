@@ -19,7 +19,7 @@ const contextMenuReport = async (
 		""
 	)}/${username}/${month}/${year}`;
 
-	const content = `Raport ${username} za ${
+	const content = `${username}'s work reportfor ${
 		monthOptions.find((o) => o.value === month.toString()).name
 	} ${year} - ${reportUrl}`;
 
