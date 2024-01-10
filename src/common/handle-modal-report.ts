@@ -4,19 +4,19 @@ import {
 	ActionRowBuilder,
 	ModalBuilder,
 	TextInputBuilder,
-	TextInputStyle
-} from 'discord.js';
-import { sendReport } from './send-report';
+	TextInputStyle,
+} from "discord.js";
+import { sendReport } from "./send-report";
 
 const modal = (isPto: boolean) =>
 	new ModalBuilder()
-		.setCustomId('reportModal')
-		.setTitle(`Zaraportuj ${isPto ? 'urlop' : 'czas pracy'}`);
+		.setCustomId("reportModal")
+		.setTitle(`Report ${isPto ? "PTO" : "work"}`);
 
 const hoursInput = (isPto: boolean) =>
 	new TextInputBuilder()
-		.setCustomId('hoursInput')
-		.setLabel(`Ile godzin spędziłeś/aś na ${isPto ? 'urlopie' : 'te prace'}?`)
+		.setCustomId("hoursInput")
+		.setLabel(`How much time did you spend on ${isPto ? "PTO" : "this work"}?`)
 		.setStyle(TextInputStyle.Short);
 
 const firstActionRow = (isPto: boolean) =>
@@ -35,8 +35,8 @@ export const modalAction = async (
 
 	if (interaction.targetMessage.author.bot) {
 		return interaction.reply({
-			content: 'To bocia wiadomość, nie możesz jej zaraportować',
-			ephemeral: true
+			content: "This is a bot message - it cannot be reported",
+			ephemeral: true,
 		});
 	}
 
@@ -47,13 +47,13 @@ export const modalAction = async (
 
 	interaction.awaitModalSubmit({ time: 1000 * 60 * 60 }).then((data) => {
 		const hours = parseFloat(
-			data.fields.getTextInputValue('hoursInput').replace(',', '.')
+			data.fields.getTextInputValue("hoursInput").replace(",", ".")
 		);
 		if (isNaN(hours)) {
 			data.reply({
 				content:
-					'Niestety, nie zrozumiałem ile czasu poświęciłeś/aś na te prace. Proszę, zaraportuj ponownie i upewnij się, że wszystko jest w porządalku :)',
-				ephemeral: true
+					"I'm sorry, I didn't understand how much time you have spent on this job",
+				ephemeral: true,
 			});
 		} else {
 			sendReport(

@@ -1,22 +1,22 @@
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 import {
 	ContextMenuCommandBuilder,
 	ApplicationCommandType,
-	UserContextMenuCommandInteraction
-} from 'discord.js';
-import { monthOptions } from './show';
+	UserContextMenuCommandInteraction,
+} from "discord.js";
+import { monthOptions } from "./show";
 
 const contextMenuReport = async (
 	interaction: UserContextMenuCommandInteraction
 ) => {
-	const month = dayjs().get('month');
-	const year = dayjs().get('year');
+	const month = dayjs().get("month");
+	const year = dayjs().get("year");
 	const { username } = interaction.targetUser;
 	const { user } = interaction;
 
 	const reportUrl = `${(process.env.API_URL as string).replace(
-		'/api',
-		''
+		"/api",
+		""
 	)}/${username}/${month}/${year}`;
 
 	const content = `Raport ${username} za ${
@@ -25,14 +25,14 @@ const contextMenuReport = async (
 
 	await interaction.reply({
 		ephemeral: true,
-		content: 'Sprawdź DMki ziomek'
+		content: "Yo, check yo DMs",
 	});
 	user.createDM().then((c) => c.send(content));
 };
 
 export const menuShow = {
 	data: new ContextMenuCommandBuilder()
-		.setName('Pokaż raport')
+		.setName("Show report")
 		.setType(ApplicationCommandType.User),
-	execute: contextMenuReport
+	execute: contextMenuReport,
 };

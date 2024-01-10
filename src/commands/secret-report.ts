@@ -2,9 +2,9 @@ import {
 	ApplicationCommandType,
 	Client,
 	ContextMenuCommandBuilder,
-	MessageContextMenuCommandInteraction
-} from 'discord.js';
-import { modalAction } from '../common/handle-modal-report';
+	MessageContextMenuCommandInteraction,
+} from "discord.js";
+import { modalAction } from "../common/handle-modal-report";
 
 const secretModalAction = (
 	interaction: MessageContextMenuCommandInteraction,
@@ -15,7 +15,7 @@ const secretModalAction = (
 
 export const secretReport = {
 	data: new ContextMenuCommandBuilder()
-		.setName('Zaraportuj dyskretnie')
+		.setName("Report discreetly")
 		.setType(ApplicationCommandType.Message),
-	execute: secretModalAction
+	execute: secretModalAction,
 };

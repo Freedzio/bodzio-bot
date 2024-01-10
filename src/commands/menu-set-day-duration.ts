@@ -1,7 +1,6 @@
 import {
 	ActionRowBuilder,
 	ApplicationCommandType,
-	Client,
 	ContextMenuCommandBuilder,
 	ModalBuilder,
 	ModalSubmitInteraction,
@@ -15,16 +14,16 @@ import { dayjs } from "../common/dayjs";
 
 const modal = new ModalBuilder()
 	.setCustomId("dayDurationModal")
-	.setTitle("Ustaw czas pracy");
+	.setTitle("Set workday duration");
 
 const hoursInput = new TextInputBuilder()
 	.setCustomId("hoursInput")
-	.setLabel("Ile godzin ma mieć dzień pracy?")
+	.setLabel("How long should the workday be?")
 	.setStyle(TextInputStyle.Short);
 
 const dateInput = new TextInputBuilder()
 	.setCustomId("dateInput")
-	.setLabel("Od kiedy?")
+	.setLabel("Since what day?")
 	.setStyle(TextInputStyle.Short);
 
 const firstActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
@@ -66,13 +65,13 @@ const dayDurationModalAction = async (
 		if (isNaN(hours)) {
 			return data.reply({
 				content:
-					"Niestety, nie zrozumiałem ile godzin ma trwać dzień pracy tego użytkownika.",
+					"I'm sorry, I didn't understand how long this user's workday is supposed to be.",
 				ephemeral: true,
 			});
 		}
 		if (hours <= 0 || hours >= 24) {
 			return data.reply({
-				content: "Niepoprawna wartość. Należy podać liczbę pomiędzy 0 a 24",
+				content: "Wrong value. Please enter number between 0 and 24",
 				ephemeral: true,
 			});
 		}
@@ -86,7 +85,7 @@ const dayDurationModalAction = async (
 
 		if (fromDateObject.format() === "Invalid Date") {
 			return data.reply({
-				content: "Wprowadzono niepoprawną datę",
+				content: "Wrong date",
 				ephemeral: true,
 			});
 		}
@@ -113,17 +112,15 @@ const sendDayDuration = async (
 	});
 
 	if (!response.ok) {
-		interaction.followUp("Coś poszło nie tak");
+		interaction.followUp("Something went wrong");
 	} else {
-		interaction.followUp(
-			`Ustawiłem ${hours}-godzinny dzień pracy dla ${username}`
-		);
+		interaction.followUp(`I've set ${hours}-hours workday for ${username}`);
 	}
 };
 
 export const modalSetDayDuration = {
 	data: new ContextMenuCommandBuilder()
-		.setName("Ustaw godziny")
+		.setName("Set workday duration")
 		.setType(ApplicationCommandType.User),
 	execute: dayDurationModalAction,
 };

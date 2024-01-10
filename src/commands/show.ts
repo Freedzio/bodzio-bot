@@ -1,37 +1,37 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
-import * as dotenv from 'dotenv';
-import dayjs from 'dayjs';
+import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import * as dotenv from "dotenv";
+import dayjs from "dayjs";
 
 dotenv.config();
 
 export const monthOptions = [
-	{ value: '0', name: 'styczeń' },
-	{ value: '1', name: 'luty' },
-	{ value: '2', name: 'marzec' },
-	{ value: '3', name: 'kwiecień' },
-	{ value: '4', name: 'maj' },
-	{ value: '5', name: 'czerwiec' },
-	{ value: '6', name: 'lipiec' },
-	{ value: '7', name: 'sierpień' },
-	{ value: '8', name: 'wrzesień' },
-	{ value: '9', name: 'październik' },
-	{ value: '10', name: 'listopad' },
-	{ value: '11', name: 'grudzień' }
+	{ value: "0", name: "january" },
+	{ value: "1", name: "february" },
+	{ value: "2", name: "march" },
+	{ value: "3", name: "april" },
+	{ value: "4", name: "may" },
+	{ value: "5", name: "june" },
+	{ value: "6", name: "july" },
+	{ value: "7", name: "august" },
+	{ value: "8", name: "september" },
+	{ value: "9", name: "october" },
+	{ value: "10", name: "november" },
+	{ value: "11", name: "december" },
 ];
 
 const showReport = async (interaction: ChatInputCommandInteraction) => {
-	const requestedUser = interaction.options.get('użytkownik')?.value;
-	const month = interaction.options.get('miesiąc')?.value;
-	const year = interaction.options.get('rok')?.value;
+	const requestedUser = interaction.options.get("user")?.value;
+	const month = interaction.options.get("month")?.value;
+	const year = interaction.options.get("year")?.value;
 
 	const { user } = interaction;
 
-	const monthToShow = month ?? monthOptions[dayjs().get('month')].value;
-	const yearToShow = year ?? dayjs().get('year');
+	const monthToShow = month ?? monthOptions[dayjs().get("month")].value;
+	const yearToShow = year ?? dayjs().get("year");
 
 	const reportUrl = `${(process.env.API_URL as string).replace(
-		'/api',
-		''
+		"/api",
+		""
 	)}/${requestedUser}/${monthToShow}/${yearToShow}`;
 
 	const content = `Raport ${requestedUser} za ${
@@ -41,7 +41,7 @@ const showReport = async (interaction: ChatInputCommandInteraction) => {
 	if (!!interaction.channel) {
 		await interaction.reply({
 			ephemeral: true,
-			content: 'Sprawdź DMki ziomek'
+			content: "Sprawdź DMki ziomek",
 		});
 		user.createDM().then((c) => c.send(content));
 	} else {
@@ -51,26 +51,26 @@ const showReport = async (interaction: ChatInputCommandInteraction) => {
 
 export const show = {
 	data: new SlashCommandBuilder()
-		.setName('show')
-		.setDescription('Pobierz link do raportu pracy danego użytkownika')
+		.setName("show")
+		.setDescription("Get URL to this user's work report")
 		.addStringOption((option) =>
 			option
-				.setName('użytkownik')
-				.setDescription('Użytkownik, którego raport chcesz zobaczyć')
+				.setName("user")
+				.setDescription("User, whose work you want to see")
 				.setRequired(true)
 		)
 		.addStringOption((option) =>
 			option
-				.setName('miesiąc')
-				.setDescription('Miesiąc, za który raport chcesz zobaczyć')
+				.setName("month")
+				.setDescription("Month, for which you want the report")
 				.addChoices(...monthOptions)
 		)
 		.addNumberOption((option) =>
 			option
-				.setName('rok')
-				.setDescription('Rok, z którego mam pobrać raport miesięczny')
+				.setName("year")
+				.setDescription("Year, from which you want to get the report")
 				.setMinValue(2022)
-				.setMaxValue(dayjs().get('year'))
+				.setMaxValue(dayjs().get("year"))
 		),
-	execute: showReport
+	execute: showReport,
 };

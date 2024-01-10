@@ -3,15 +3,15 @@ import {
 	Client,
 	Message,
 	ModalSubmitInteraction,
-	TextChannel
-} from 'discord.js';
-import { EndpointeEnum } from '../enpoints.enum';
-import { fetchApi } from './fetch-api';
+	TextChannel,
+} from "discord.js";
+import { EndpointeEnum } from "../enpoints.enum";
+import { fetchApi } from "./fetch-api";
 
 const nonMainChannelResponse =
-	'Oksik, poinformowałem pozostałe Hobośki o Twoich poczynaniach :)';
+	"Okey dokey, I've told the others about the stuff you've done :)";
 
-const secretResponse = 'Zapisałem i nic nikomu nie powiedziałem';
+const secretResponse = "It's our little secret ;)";
 
 const { GUILD_ID, MAIN_CHANNEL_ID } = process.env;
 
@@ -28,19 +28,19 @@ export const sendReport = async (
 	await interaction.deferReply({ ephemeral: true });
 
 	const replyWithJob = `**${username} - ${hours}h** \n${job} ${
-		isPto ? 'URLOP' : ''
+		isPto ? "PTO" : ""
 	}`;
-	const replyWithoutJob = `**${username} - ${hours}h** ${isPto ? 'URLOP' : ''}`;
+	const replyWithoutJob = `**${username} - ${hours}h** ${isPto ? "PTO" : ""}`;
 	const secretReply = `**${username} - ${hours}h** ${
-		isPto ? 'URLOP' : ''
-	} \nPrezesowane`;
+		isPto ? "PTO" : ""
+	} \nCEO\'d`;
 
 	console.log();
 	console.log(replyWithJob);
 	console.log();
 
 	const response = await fetchApi(EndpointeEnum.REPORT, {
-		method: 'POST',
+		method: "POST",
 		body: JSON.stringify({
 			username,
 			reporter: interaction.user.username,
@@ -51,12 +51,12 @@ export const sendReport = async (
 			messageId: message?.id,
 			attachments: message?.attachments.map((a) => ({
 				url: a.url,
-				name: a.name
+				name: a.name,
 			})),
-			link: message?.url.replace('https', 'discord'),
+			link: message?.url.replace("https", "discord"),
 			isSecret,
-			isPto
-		})
+			isPto,
+		}),
 	});
 
 	if (!response.ok) {
@@ -65,10 +65,10 @@ export const sendReport = async (
 		console.log(await result);
 
 		return await interaction.followUp({
-			content: `Niestety nie udało mi się zaraportować ${
-				isPto ? 'Twojego urlopu' : 'Twojej pracy'
-			} - coś poszło nie tak`,
-			ephemeral: true
+			content: `I'm sorry, I wasn't able to report your ${
+				isPto ? "pto" : "work"
+			} - something went wrong`,
+			ephemeral: true,
 		});
 	}
 
@@ -84,8 +84,8 @@ export const sendReport = async (
 		}
 
 		return await interaction.followUp({
-			content: `Pomyślnie zapisano ${isPto ? 'urlop' : 'raport'}`,
-			ephemeral: true
+			content: `${isPto ? "PTO" : "work"} reported successfully`,
+			ephemeral: true,
 		});
 	}
 
@@ -93,6 +93,6 @@ export const sendReport = async (
 
 	await interaction.followUp({
 		content: isSecret ? secretResponse : nonMainChannelResponse,
-		ephemeral: true
+		ephemeral: true,
 	});
 };
