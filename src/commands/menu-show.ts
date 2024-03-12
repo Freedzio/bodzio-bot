@@ -7,19 +7,21 @@ import {
 import { monthOptions } from "./show";
 
 const contextMenuReport = async (
-	interaction: UserContextMenuCommandInteraction
+	interaction: UserContextMenuCommandInteraction,
 ) => {
 	const month = dayjs().get("month");
 	const year = dayjs().get("year");
 	const { username } = interaction.targetUser;
 	const { user } = interaction;
 
-	const reportUrl = `${(process.env.API_URL as string).replace(
-		"/api",
-		""
-	)}/${username}/${month}/${year}`;
+	const reportUrl = encodeURI(
+		`${(process.env.API_URL as string).replace(
+			"/api",
+			"",
+		)}/${username}/${month}/${year}`,
+	);
 
-	const content = `${username}'s work reportfor ${
+	const content = `${username}'s work report for ${
 		monthOptions.find((o) => o.value === month.toString()).name
 	} ${year} - ${reportUrl}`;
 
