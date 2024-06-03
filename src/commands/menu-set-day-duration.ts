@@ -27,16 +27,16 @@ const dateInput = new TextInputBuilder()
 	.setStyle(TextInputStyle.Short);
 
 const firstActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
-	hoursInput
+	hoursInput,
 );
 const secondActionRow = new ActionRowBuilder<TextInputBuilder>().addComponents(
-	dateInput
+	dateInput,
 );
 
 modal.addComponents(firstActionRow, secondActionRow);
 
 const dayDurationModalAction = async (
-	interaction: UserContextMenuCommandInteraction
+	interaction: UserContextMenuCommandInteraction,
 ) => {
 	// if (interaction.user.id !== '496438141561864192') {
 	// 	return interaction.reply({
@@ -50,7 +50,7 @@ const dayDurationModalAction = async (
 
 	interaction.awaitModalSubmit({ time: 1000 * 60 * 60 }).then((data) => {
 		const hours = parseFloat(
-			data.fields.getTextInputValue("hoursInput").replace(",", ".")
+			data.fields.getTextInputValue("hoursInput").replace(",", "."),
 		);
 
 		let fromDate = data.fields.getTextInputValue("dateInput");
@@ -69,7 +69,7 @@ const dayDurationModalAction = async (
 				ephemeral: true,
 			});
 		}
-		if (hours <= 0 || hours >= 24) {
+		if (hours < 0 || hours > 24) {
 			return data.reply({
 				content: "Wrong value. Please enter number between 0 and 24",
 				ephemeral: true,
@@ -98,7 +98,7 @@ const sendDayDuration = async (
 	username: string,
 	hours: number,
 	fromDate: string,
-	interaction: ModalSubmitInteraction
+	interaction: ModalSubmitInteraction,
 ) => {
 	await interaction.deferReply({ ephemeral: true });
 

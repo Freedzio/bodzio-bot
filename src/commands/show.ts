@@ -29,10 +29,12 @@ const showReport = async (interaction: ChatInputCommandInteraction) => {
 	const monthToShow = month ?? monthOptions[dayjs().get("month")].value;
 	const yearToShow = year ?? dayjs().get("year");
 
-	const reportUrl = `${(process.env.API_URL as string).replace(
-		"/api",
-		""
-	)}/${requestedUser}/${monthToShow}/${yearToShow}`;
+	const reportUrl = encodeURI(
+		`${(process.env.API_URL as string).replace(
+			"/api",
+			"",
+		)}/${requestedUser}/${monthToShow}/${yearToShow}`,
+	);
 
 	const content = `${requestedUser}'s work report for ${
 		monthOptions.find((o) => o.value.toString() === monthToShow.toString()).name
@@ -57,20 +59,20 @@ export const show = {
 			option
 				.setName("user")
 				.setDescription("User, whose work you want to see")
-				.setRequired(true)
+				.setRequired(true),
 		)
 		.addStringOption((option) =>
 			option
 				.setName("month")
 				.setDescription("Month, for which you want the report")
-				.addChoices(...monthOptions)
+				.addChoices(...monthOptions),
 		)
 		.addNumberOption((option) =>
 			option
 				.setName("year")
 				.setDescription("Year, from which you want to get the report")
 				.setMinValue(2022)
-				.setMaxValue(dayjs().get("year"))
+				.setMaxValue(dayjs().get("year")),
 		),
 	execute: showReport,
 };
